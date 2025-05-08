@@ -180,10 +180,10 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagn
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
 -- TIP: Disable arrow keys in normal mode
--- vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
--- vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')
--- vim.keymap.set('n', '<up>', '<cmd>echo "Use k to move!!"<CR>')
--- vim.keymap.set('n', '<down>', '<cmd>echo "Use j to move!!"<CR>')
+vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
+vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')
+vim.keymap.set('n', '<up>', '<cmd>echo "Use k to move!!"<CR>')
+vim.keymap.set('n', '<down>', '<cmd>echo "Use j to move!!"<CR>')
 
 -- Keybinds to make split navigation easier.
 --  Use CTRL+<hjkl> to switch between windows
@@ -199,6 +199,32 @@ vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper win
 -- vim.keymap.set("n", "<C-S-l>", "<C-w>L", { desc = "Move window to the right" })
 -- vim.keymap.set("n", "<C-S-j>", "<C-w>J", { desc = "Move window to the lower" })
 -- vim.keymap.set("n", "<C-S-k>", "<C-w>K", { desc = "Move window to the upper" })
+
+-- NERDTree shortcuts
+vim.keymap.set('n', '<leader>t', ':NERDTreeToggleVCS<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', '<leader>z', ':NERDTreeFocus<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', '<leader>l', ':tabnext<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', '<leader>h', ':tabprevious<CR>', { noremap = true, silent = true })
+
+-- Toggle comments
+vim.keymap.set('n', '<leader>c', 'gcc', { remap = true }) -- Ctrl + / in normal mode
+vim.keymap.set('v', '<leader>c', 'gc', { remap = true }) -- Ctrl + / in visual mode
+
+-- Normal Mode: Alt + j/k to move lines
+vim.keymap.set('n', '<A-j>', ':m .+1<CR>==', { noremap = true, silent = true })
+vim.keymap.set('n', '<A-k>', ':m .-2<CR>==', { remap = true, silent = true })
+
+-- Visual Mode: Alt + j/k to move selected lines
+vim.keymap.set('v', '<A-j>', ":m '>+1<CR>gv=gv", { noremap = true, silent = true })
+vim.keymap.set('v', '<A-k>', ":m '<-2<CR>gv=gv", { noremap = true, silent = true })
+
+-- Normal Mode: Ctrl + Shift + Alt + j/k to duplicate lines
+vim.keymap.set('n', '<C-S-A-j>', 'yyp', { desc = 'Duplicate lines below' })
+vim.keymap.set('n', '<C-S-A-k>', 'yyP', { desc = 'Duplicate lines above' })
+
+-- Visual Mode: Ctrl + Shift + Alt + j/k to duplicate selected lines
+vim.keymap.set('v', '<C-S-A-j>', "y'>p", { desc = 'Duplicate selection below' })
+vim.keymap.set('v', '<C-S-A-k>', "y'<P", { desc = 'Duplicate selection above' })
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
@@ -240,6 +266,8 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup({
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
   'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
+  'preservim/nerdtree',
+  'numToStr/Comment.nvim',
 
   -- NOTE: Plugins can also be added by using a table,
   -- with the first argument being the link and the following
@@ -663,7 +691,7 @@ require('lazy').setup({
       --  - settings (table): Override the default settings passed when initializing the server.
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
-        -- clangd = {},
+        clangd = {},
         -- gopls = {},
         -- pyright = {},
         -- rust_analyzer = {},
@@ -748,13 +776,10 @@ require('lazy').setup({
         -- Disable "format_on_save lsp_fallback" for languages that don't
         -- have a well standardized coding style. You can add additional
         -- languages here or re-enable it for the disabled ones.
-        local disable_filetypes = { c = true, cpp = true }
-        if disable_filetypes[vim.bo[bufnr].filetype] then
-          return nil
-        else
+        if vim.bo[bufnr].filetype == 'cpp' or vim.bo[bufnr].filetype == 'c' or vim.bo[bufnr].filetype == 'hpp' or vim.bo[bufnr].filetype == 'h' then
           return {
             timeout_ms = 500,
-            lsp_format = 'fallback',
+            lsp_format = true,
           }
         end
       end,
