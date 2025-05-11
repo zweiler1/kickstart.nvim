@@ -107,6 +107,9 @@ vim.opt.number = true
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.opt.mouse = 'a'
 
+-- Enable mouse move envents
+vim.opt.mousemoveevent = true
+
 -- Don't show the mode, since it's already in the status line
 vim.opt.showmode = false
 
@@ -267,7 +270,7 @@ require('lazy').setup({
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
   'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
   'preservim/nerdtree',
-  'numToStr/Comment.nvim',
+  'numToStr/Comment.nvim', -- For my space + c switch between comment / not comment
 
   -- NOTE: Plugins can also be added by using a table,
   -- with the first argument being the link and the following
@@ -756,6 +759,19 @@ require('lazy').setup({
     end,
   },
 
+  -- Mouse hover support
+  {
+    'soulis-1256/eagle.nvim',
+    opts = {
+      -- Override default configuration here
+      mouse_mode = true,
+      keyboard_mode = false,
+      show_lsp_info = true,
+      render_delay = 500,
+      -- Add other configuration options as needed
+    },
+  },
+
   { -- Autoformat
     'stevearc/conform.nvim',
     event = { 'BufWritePre' },
@@ -776,7 +792,13 @@ require('lazy').setup({
         -- Disable "format_on_save lsp_fallback" for languages that don't
         -- have a well standardized coding style. You can add additional
         -- languages here or re-enable it for the disabled ones.
-        if vim.bo[bufnr].filetype == 'cpp' or vim.bo[bufnr].filetype == 'c' or vim.bo[bufnr].filetype == 'hpp' or vim.bo[bufnr].filetype == 'h' then
+        if
+          vim.bo[bufnr].filetype == 'cpp'
+          or vim.bo[bufnr].filetype == 'c'
+          or vim.bo[bufnr].filetype == 'hpp'
+          or vim.bo[bufnr].filetype == 'h'
+          or vim.bo[bufnr].filetype == 'lua'
+        then
           return {
             timeout_ms = 500,
             lsp_format = true,
@@ -791,6 +813,17 @@ require('lazy').setup({
         -- You can use 'stop_after_first' to run the first available formatter from the list
         -- javascript = { "prettierd", "prettier", stop_after_first = true },
       },
+    },
+  },
+
+  {
+    'nvim-treesitter/nvim-treesitter-context',
+    dependencies = { 'nvim-treesitter/nvim-treesitter' },
+    opts = {
+      enable = true,
+      max_lines = 3, -- Number of lines the context window can occupy
+      trim_scope = 'outer', -- Which context to remove when max_lines is exceeded
+      mode = 'cursor', -- "cursor" or "topline"
     },
   },
 
