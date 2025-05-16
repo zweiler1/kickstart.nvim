@@ -271,6 +271,33 @@ require('lazy').setup({
   'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
   'preservim/nerdtree',
   'numToStr/Comment.nvim', -- For my space + c switch between comment / not comment
+  {
+    'rmagatti/auto-session',
+    config = function()
+      local auto_session = require 'auto-session'
+
+      -- store sessions under stdpath('data')/sessions
+      auto_session.setup {
+        log_level = 'error', -- only show errors
+        auto_session_enable_last_session = false,
+        auto_session_root_dir = vim.fn.stdpath 'data' .. '/sessions/',
+        auto_session_enabled = vim.fn.argc() == 0,
+        auto_save_enabled = true,
+        auto_restore_enabled = true,
+        auto_session_create_enabled = true,
+        bypass_session_save_file_types = nil, -- save on any filetype
+        -- don't auto-restore if you passed files on the cmdline:
+        auto_restore_cmds = {
+          -- run this only if argc == 0
+          restore_cmd = function()
+            if vim.fn.argc() == 0 then
+              require('auto-session').RestoreSession(vim.fn.getcwd())
+            end
+          end,
+        },
+      }
+    end,
+  },
 
   -- NOTE: Plugins can also be added by using a table,
   -- with the first argument being the link and the following
