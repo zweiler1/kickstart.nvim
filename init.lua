@@ -274,10 +274,8 @@ require('lazy').setup({
   {
     'rmagatti/auto-session',
     config = function()
-      local auto_session = require 'auto-session'
-
       -- store sessions under stdpath('data')/sessions
-      auto_session.setup {
+      require('auto-session').setup {
         log_level = 'error', -- only show errors
         auto_session_enable_last_session = false,
         auto_session_root_dir = vim.fn.stdpath 'data' .. '/sessions/',
@@ -297,6 +295,28 @@ require('lazy').setup({
         },
       }
     end,
+  },
+  {
+    'petertriho/nvim-scrollbar',
+    config = function()
+      require('scrollbar').setup {
+        handle = { hide_if_all_visible = true },
+        marks = {
+          Cursor = { text = '•' },
+          GitAdd = { text = '┆' },
+          GitChange = { text = '┆' },
+          GitDelete = { text = '▁' },
+          Error = { text = { '-', '=' } },
+          Warn = { text = { '-', '=' } },
+          Info = { text = { '-', '=' } },
+          Hint = { text = { '-', '=' } },
+        },
+      }
+    end,
+  },
+  {
+    'flint-lang/flint-syntax.nvim',
+    ft = 'flint',
   },
 
   -- NOTE: Plugins can also be added by using a table,
@@ -999,6 +1019,17 @@ require('lazy').setup({
     priority = 1000,
     config = function()
       -- vim.cmd.colorscheme 'gruvbox-material'
+    end,
+  },
+
+  {
+    'navarasu/onedark.nvim',
+    priority = 1000,
+    config = function()
+      require('onedark').setup {
+        style = 'dark',
+      }
+      -- vim.cmd.colorscheme '
     end,
   },
 
