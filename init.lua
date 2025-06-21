@@ -316,7 +316,16 @@ require('lazy').setup({
   },
   {
     'flint-lang/flint-syntax.nvim',
+    -- dir = '~/env/flint/flint-syntax.nvim',
     ft = 'flint',
+    init = function()
+      vim.cmd [[
+        augroup flint_indent
+          autocmd!
+          autocmd FileType flint setlocal tabstop=4 shiftwidth=4
+        augroup END
+      ]]
+    end,
   },
 
   -- NOTE: Plugins can also be added by using a table,
