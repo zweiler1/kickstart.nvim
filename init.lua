@@ -297,19 +297,39 @@ require('lazy').setup({
     end,
   },
   {
+    'lewis6991/gitsigns.nvim',
+    config = function()
+      require('gitsigns').setup {
+        -- your gitsigns opts here, e.g.
+        signs = {
+          add = { hl = 'GitSignsAdd', text = '+' },
+          change = { hl = 'GitSignsChange', text = '~' },
+          delete = { hl = 'GitSignsDelete', text = '_' },
+          topdelete = { hl = 'GitSignsDelete', text = '‾' },
+          changedelete = { hl = 'GitSignsChange', text = '~' },
+        },
+        -- … any other gitsigns options …
+      }
+    end,
+  },
+  {
     'petertriho/nvim-scrollbar',
+    dependencies = { 'lewis6991/gitsigns.nvim' },
     config = function()
       require('scrollbar').setup {
-        handle = { hide_if_all_visible = true },
+        handle = {
+          hide_if_all_visible = false,
+        },
         marks = {
-          Cursor = { text = '•' },
-          GitAdd = { text = '┆' },
-          GitChange = { text = '┆' },
-          GitDelete = { text = '▁' },
-          Error = { text = { '-', '=' } },
-          Warn = { text = { '-', '=' } },
-          Info = { text = { '-', '=' } },
-          Hint = { text = { '-', '=' } },
+          GitDelete = {
+            text = '┆',
+          },
+        },
+        handlers = {
+          cursor = true,
+          diagnostic = true,
+          gitsigns = true, -- turn on Git hunk marks
+          handle = true,
         },
       }
     end,
