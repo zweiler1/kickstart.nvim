@@ -229,6 +229,23 @@ vim.keymap.set('n', '<C-S-A-k>', 'yyP', { desc = 'Duplicate lines above' })
 vim.keymap.set('v', '<C-S-A-j>', "y'>p", { desc = 'Duplicate selection below' })
 vim.keymap.set('v', '<C-S-A-k>', "y'<P", { desc = 'Duplicate selection above' })
 
+-- Folding stuff
+vim.o.foldmethod = 'expr'
+vim.o.foldexpr = 'nvim_treesitter#foldexpr()'
+vim.o.foldenable = true
+vim.o.foldcolumn = '1'
+vim.o.foldlevelstart = 99
+
+-- GoTo definition stuff
+vim.keymap.set('n', '<leader>gd', vim.lsp.buf.definition, {
+  desc = 'Goto LSP definition',
+  silent = true,
+})
+vim.keymap.set('n', '<leader>gD', vim.lsp.buf.declaration, {
+  desc = 'Goto LSP declaration',
+  silent = true,
+})
+
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
