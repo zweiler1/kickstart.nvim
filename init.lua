@@ -377,6 +377,35 @@ require('lazy').setup({
       ]]
     end,
   },
+  {
+    'akinsho/toggleterm.nvim',
+    config = function()
+      require('toggleterm').setup {
+        size = 20,
+        open_mapping = [[<C-O>]],
+        hide_numbers = true,
+        shade_filetypes = {},
+        shade_terminals = true,
+        shading_factor = 2,
+        start_in_insert = true,
+        direction = 'float',
+        float_opts = { border = 'curved' },
+        -- Close and wipe the terminal buffer when the process exits:
+        close_on_exit = true,
+        -- Don't try to restore terminal mode/history when toggling:
+        persist_mode = false,
+      }
+
+      -- Ctrl+V toggle between insert/visual in terminal
+      vim.cmd [[
+        augroup ToggleTermVisual
+          autocmd!
+          autocmd TermOpen term://*toggleterm#* tnoremap <buffer> <C-v> <C-\><C-n>v
+          autocmd TermOpen term://*toggleterm#* nnoremap <buffer> <C-v> v
+        augroup END
+      ]]
+    end,
+  },
 
   -- NOTE: Plugins can also be added by using a table,
   -- with the first argument being the link and the following
