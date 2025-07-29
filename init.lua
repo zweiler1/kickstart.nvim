@@ -364,6 +364,19 @@ require('lazy').setup({
       ]]
     end,
   },
+  {
+    dir = '~/env/valk/valk-syntax.nvim',
+    valk = 'valk',
+    -- Set the tab width to 4
+    init = function()
+      vim.cmd [[
+        augroup valk_indent
+          autocmd!
+          autocmd FileType valk setlocal tabstop=4 shiftwidth=4
+        augroup END
+      ]]
+    end,
+  },
 
   -- NOTE: Plugins can also be added by using a table,
   -- with the first argument being the link and the following
