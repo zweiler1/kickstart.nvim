@@ -359,7 +359,7 @@ require('lazy').setup({
       vim.cmd [[
         augroup flint_indent
           autocmd!
-          autocmd FileType flint setlocal tabstop=4 shiftwidth=4
+          autocmd FileType flint setlocal tabstop=4 shiftwidth=4 noexpandtab
         augroup END
       ]]
     end,
