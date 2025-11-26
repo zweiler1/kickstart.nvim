@@ -989,6 +989,8 @@ Make sure 'fls' is in your PATH.
           or vim.bo[bufnr].filetype == 'hpp'
           or vim.bo[bufnr].filetype == 'h'
           or vim.bo[bufnr].filetype == 'lua'
+          or vim.bo[bufnr].filetype == 'zig'
+          or vim.bo[bufnr].filetype == 'zon'
           or vim.bo[bufnr].filetype == 'js'
           or vim.bo[bufnr].filetype == 'jsx'
           or vim.bo[bufnr].filetype == 'html'
@@ -1005,6 +1007,7 @@ Make sure 'fls' is in your PATH.
       end,
       formatters_by_ft = {
         lua = { 'stylua' },
+        zig = { 'zig' },
         -- Conform can also run multiple formatters sequentially
         -- python = { "isort", "black" },
         --
