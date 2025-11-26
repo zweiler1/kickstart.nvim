@@ -355,13 +355,41 @@ require('lazy').setup({
     'flint-lang/flint-syntax.nvim',
     -- dir = '~/env/flint/flint-syntax.nvim',
     ft = 'flint',
-    init = function()
+    config = function()
+      -- Set the tab width to 4
       vim.cmd [[
-        augroup flint_indent
-          autocmd!
-          autocmd FileType flint setlocal tabstop=4 shiftwidth=4 noexpandtab
-        augroup END
+          augroup flint_indent
+            autocmd!
+            autocmd FileType flint setlocal tabstop=4 shiftwidth=4 noexpandtab
+          augroup END
       ]]
+
+      -- LSP configuration
+      local lspconfig = require 'lspconfig'
+      local configs = require 'lspconfig.configs'
+
+      -- Define flint LSP if not already defined
+      if not configs.flint then
+        configs.flint = {
+          default_config = {
+            cmd = { 'fls' }, -- Make sure this is in your PATH
+            filetypes = { 'flint' },
+            root_dir = function(fname)
+              return lspconfig.util.find_git_ancestor(fname) or vim.fn.getcwd()
+            end,
+            settings = {},
+          },
+          docs = {
+            description = [[
+Flint Language Server Protocol implementation.
+Make sure 'fls' is in your PATH.
+            ]],
+          },
+        }
+      end
+
+      -- Setup the LSP
+      lspconfig.flint.setup {}
     end,
   },
   {
