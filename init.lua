@@ -410,7 +410,7 @@ Make sure 'fls' is in your PATH.
     config = function()
       require('toggleterm').setup {
         size = 20,
-        open_mapping = [[<C-O>]],
+        open_mapping = [[<C-K>]],
         hide_numbers = true,
         shade_filetypes = {},
         shade_terminals = true,
