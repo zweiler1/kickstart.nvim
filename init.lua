@@ -434,6 +434,34 @@ Make sure 'fls' is in your PATH.
       ]]
     end,
   },
+  {
+    'pmizio/typescript-tools.nvim',
+    dependencies = { 'nvim-lua/plenary.nvim', 'neovim/nvim-lspconfig' },
+    opts = {
+      -- you can pass settings here (see section below)
+      on_attach = function(client, bufnr)
+        -- only set up format-on-save if this client supports formatting
+        if client.server_capabilities and client.server_capabilities.documentFormattingProvider then
+          -- create an augroup per-client-buffer to avoid duplicate autocmds
+          local group = vim.api.nvim_create_augroup('TSToolsFormat', { clear = false })
+          vim.api.nvim_clear_autocmds { group = group, buffer = bufnr }
+          vim.api.nvim_create_autocmd('BufWritePre', {
+            group = group,
+            buffer = bufnr,
+            callback = function()
+              vim.lsp.buf.format {
+                bufnr = bufnr,
+                -- ensure we use typescript-tools for formatting
+                filter = function(format_client)
+                  return format_client.name == 'typescript-tools'
+                end,
+              }
+            end,
+          })
+        end
+      end,
+    },
+  },
 
   -- NOTE: Plugins can also be added by using a table,
   -- with the first argument being the link and the following
@@ -961,6 +989,13 @@ Make sure 'fls' is in your PATH.
           or vim.bo[bufnr].filetype == 'hpp'
           or vim.bo[bufnr].filetype == 'h'
           or vim.bo[bufnr].filetype == 'lua'
+          or vim.bo[bufnr].filetype == 'js'
+          or vim.bo[bufnr].filetype == 'jsx'
+          or vim.bo[bufnr].filetype == 'html'
+          or vim.bo[bufnr].filetype == 'htmx'
+          or vim.bo[bufnr].filetype == 'css'
+          or vim.bo[bufnr].filetype == 'ts'
+          or vim.bo[bufnr].filetype == 'tsx'
         then
           return {
             timeout_ms = 500,
