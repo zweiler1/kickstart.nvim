@@ -286,7 +286,13 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup({
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
   'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
-  'preservim/nerdtree',
+  {
+    'preservim/nerdtree',
+    init = function()
+      -- set before the plugin loads
+      vim.g.NERDTreeShowHidden = 1
+    end,
+  },
   'numToStr/Comment.nvim', -- For my space + c switch between comment / not comment
   {
     'rmagatti/auto-session',
@@ -1008,6 +1014,7 @@ Make sure 'fls' is in your PATH.
       formatters_by_ft = {
         lua = { 'stylua' },
         zig = { 'zig' },
+        tsx = { 'typescript-tools' },
         -- Conform can also run multiple formatters sequentially
         -- python = { "isort", "black" },
         --
