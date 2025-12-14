@@ -399,6 +399,38 @@ Make sure 'fls' is in your PATH.
     end,
   },
   {
+    dir = '~/env/zig/zls.nvim',
+    ft = 'zig',
+    config = function()
+      -- LSP configuration
+      local lspconfig = require 'lspconfig'
+      local configs = require 'lspconfig.configs'
+
+      -- Define zig LSP if not already defined
+      if not configs.zls then
+        configs.zls = {
+          default_config = {
+            cmd = { 'zls' }, -- Make sure this is in your PATH
+            filetypes = { 'zig' },
+            root_dir = function(fname)
+              return lspconfig.util.find_git_ancestor(fname) or vim.fn.getcwd()
+            end,
+            settings = {},
+          },
+          docs = {
+            description = [[
+Zig Language Server Protocol implementation.
+Make sure 'zls' is in your PATH.
+            ]],
+          },
+        }
+      end
+
+      -- Setup the LSP
+      lspconfig.zls.setup {}
+    end,
+  },
+  {
     dir = '~/env/valk/valk-syntax.nvim',
     valk = 'valk',
     -- Set the tab width to 4
@@ -891,6 +923,7 @@ Make sure 'fls' is in your PATH.
       --  - settings (table): Override the default settings passed when initializing the server.
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
+        -- zls = {},
         clangd = {},
         -- gopls = {},
         -- pyright = {},
