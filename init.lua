@@ -501,6 +501,30 @@ Make sure 'zls' is in your PATH.
       end,
     },
   },
+  { -- Visualize current indent scope with a pretty vertical line
+    'echasnovski/mini.indentscope',
+    lazy = false, -- Ensure it loads on startup
+    config = function()
+      require('mini.indentscope').setup {
+        symbol = '│',
+        draw = {
+          animation = require('mini.indentscope').gen_animation.quadratic {
+            easing = 'in-out',
+            duration = 100,
+            unit = 'total',
+          },
+          priority = 100,
+        },
+        options = {
+          try_as_border = true, -- Better for some languages like C++
+          n_lines = 1000, -- Scan more lines for larger scopes
+        },
+        predicate = function()
+          return true
+        end, -- Draw even if scope is incomplete (fixes large files)
+      }
+    end,
+  },
 
   -- NOTE: Plugins can also be added by using a table,
   -- with the first argument being the link and the following
@@ -1198,6 +1222,11 @@ Make sure 'zls' is in your PATH.
         style = 'ink',
       }
       vim.cmd.colorscheme 'kanagawa-paper'
+
+      -- Change the color of the vertical bar
+      vim.api.nvim_set_hl(0, 'MiniIndentscopeSymbol', {
+        fg = '#788E9B',
+      })
     end,
   },
 
