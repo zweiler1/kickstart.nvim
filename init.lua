@@ -118,7 +118,8 @@ vim.opt.showmode = false
 --  Remove this option if you want your OS clipboard to remain independent.
 --  See `:help 'clipboard'`
 vim.schedule(function()
-  vim.opt.clipboard = 'unnamedplus'
+  vim.opt.clipboard = 'unnamedplus' -- Wayland
+  -- vim.opt.clipboard = 'xsel' -- X11
 end)
 
 -- Enable break indent
@@ -231,7 +232,7 @@ vim.keymap.set('v', '<C-S-A-k>', "y'<P", { desc = 'Duplicate selection above' })
 
 -- Folding stuff
 vim.o.foldmethod = 'expr'
-vim.o.foldexpr = 'nvim_treesitter#foldexpr()'
+vim.o.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
 vim.o.foldenable = true
 vim.o.foldcolumn = '1'
 vim.o.foldlevelstart = 99
@@ -1270,6 +1271,7 @@ Make sure 'zls' is in your PATH.
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
+    branch = 'master',
     main = 'nvim-treesitter.configs', -- Sets main module to use for opts
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     opts = {
