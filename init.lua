@@ -1225,7 +1225,7 @@ Make sure 'zls' is in your PATH.
 
       -- Change the color of the vertical bar
       vim.api.nvim_set_hl(0, 'MiniIndentscopeSymbol', {
-        fg = '#788E9B',
+        fg = '#899F9A',
       })
     end,
   },
