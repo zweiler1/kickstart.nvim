@@ -1084,7 +1084,7 @@ Make sure 'zls' is in your PATH.
 
   {
     'nvim-treesitter/nvim-treesitter-context',
-    dependencies = { 'nvim-treesitter/nvim-treesitter' },
+    dependencies = { 'neovim-treesitter/nvim-treesitter' },
     opts = {
       enable = true,
       max_lines = 3, -- Number of lines the context window can occupy
@@ -1298,10 +1298,10 @@ Make sure 'zls' is in your PATH.
     end,
   },
   { -- Highlight, edit, and navigate code
-    'nvim-treesitter/nvim-treesitter',
+    'neovim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
-    branch = 'master',
-    main = 'nvim-treesitter.configs', -- Sets main module to use for opts
+    branch = 'main',
+    dependencies = { 'neovim-treesitter/treesitter-parser-registry' },
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     opts = {
       ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' },
