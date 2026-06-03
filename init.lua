@@ -445,6 +445,10 @@ Make sure 'zls' is in your PATH.
     end,
   },
   {
+    'rhysd/vim-llvm',
+    ft = { 'llvm' },
+  },
+  {
     'akinsho/toggleterm.nvim',
     config = function()
       require('toggleterm').setup {
