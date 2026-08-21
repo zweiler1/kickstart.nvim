@@ -362,75 +362,43 @@ require('lazy').setup({
     'flint-lang/flint-syntax.nvim',
     -- dir = '~/env/flint/flint-syntax.nvim',
     ft = 'flint',
-    config = function()
-      -- Set the tab width to 4
-      vim.cmd [[
-          augroup flint_indent
-            autocmd!
-            autocmd FileType flint setlocal tabstop=4 shiftwidth=4 noexpandtab
-          augroup END
-      ]]
-
-      -- LSP configuration
-      local lspconfig = require 'lspconfig'
-      local configs = require 'lspconfig.configs'
-
-      -- Define flint LSP if not already defined
-      if not configs.flint then
-        configs.flint = {
-          default_config = {
-            cmd = { 'fls' }, -- Make sure this is in your PATH
-            filetypes = { 'flint' },
-            root_dir = function(fname)
-              return lspconfig.util.find_git_ancestor(fname) or vim.fn.getcwd()
-            end,
-            settings = {},
-          },
-          docs = {
-            description = [[
-Flint Language Server Protocol implementation.
-Make sure 'fls' is in your PATH.
-            ]],
-          },
-        }
-      end
-
-      -- Setup the LSP
-      lspconfig.flint.setup {}
-    end,
   },
   {
-    dir = '~/env/zig/zls.nvim',
-    ft = 'zig',
-    config = function()
-      -- LSP configuration
-      local lspconfig = require 'lspconfig'
-      local configs = require 'lspconfig.configs'
-
-      -- Define zig LSP if not already defined
-      if not configs.zls then
-        configs.zls = {
-          default_config = {
-            cmd = { 'zls' }, -- Make sure this is in your PATH
-            filetypes = { 'zig' },
-            root_dir = function(fname)
-              return lspconfig.util.find_git_ancestor(fname) or vim.fn.getcwd()
-            end,
-            settings = {},
-          },
-          docs = {
-            description = [[
-Zig Language Server Protocol implementation.
-Make sure 'zls' is in your PATH.
-            ]],
-          },
-        }
-      end
-
-      -- Setup the LSP
-      lspconfig.zls.setup {}
-    end,
+    'zweiler1/clape',
+    ft = 'clape',
   },
+  -- {
+  --   dir = '~/env/zig/zls.nvim',
+  --   ft = 'zig',
+  --   config = function()
+  --     -- LSP configuration
+  --     local lspconfig = require 'lspconfig'
+  --     local configs = require 'lspconfig.configs'
+
+  --     -- Define zig LSP if not already defined
+  --     if not configs.zls then
+  --       configs.zls = {
+  --         default_config = {
+  --           cmd = { 'zls' }, -- Make sure this is in your PATH
+  --           filetypes = { 'zig' },
+  --           root_dir = function(fname)
+  --             return lspconfig.util.find_git_ancestor(fname) or vim.fn.getcwd()
+  --           end,
+  --           settings = {},
+  --         },
+  --         docs = {
+  --           description = [[
+  --Zig Language Server Protocol implementation.
+  --Make sure 'zls' is in your PATH.
+  --           ]],
+  --         },
+  --       }
+  --     end
+
+  --     -- Setup the LSP
+  --     lspconfig.zls.setup {}
+  --   end,
+  -- },
   {
     dir = '~/env/valk/valk-syntax.nvim',
     valk = 'valk',
@@ -447,6 +415,10 @@ Make sure 'zls' is in your PATH.
   {
     'rhysd/vim-llvm',
     ft = { 'llvm' },
+  },
+  {
+    'kbenzie/vim-spirv',
+    ft = { 'spvasm' },
   },
   {
     'akinsho/toggleterm.nvim',
@@ -527,6 +499,13 @@ Make sure 'zls' is in your PATH.
           return true
         end, -- Draw even if scope is incomplete (fixes large files)
       }
+    end,
+  },
+  { -- Display signature under cursor in the command line
+    'Shougo/echodoc.vim',
+    init = function()
+      vim.g['echodoc#enable_at_startup'] = 1
+      vim.g['echodoc#type'] = 'echo'
     end,
   },
 
