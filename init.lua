@@ -1068,7 +1068,7 @@ require('lazy').setup({
 
   {
     'nvim-treesitter/nvim-treesitter-context',
-    dependencies = { 'neovim-treesitter/nvim-treesitter' },
+    dependencies = { 'nvim-treesitter/nvim-treesitter' },
     opts = {
       enable = true,
       max_lines = 3, -- Number of lines the context window can occupy
@@ -1282,10 +1282,9 @@ require('lazy').setup({
     end,
   },
   { -- Highlight, edit, and navigate code
-    'neovim-treesitter/nvim-treesitter',
+    'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
     branch = 'main',
-    dependencies = { 'neovim-treesitter/treesitter-parser-registry' },
     config = function()
       vim.schedule(function()
         require('nvim-treesitter.install').install {
