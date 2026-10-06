@@ -238,11 +238,11 @@ vim.o.foldcolumn = '1'
 vim.o.foldlevelstart = 99
 
 -- GoTo definition stuff
-vim.keymap.set('n', '<leader>gd', vim.lsp.buf.definition, {
+vim.keymap.set('n', 'gd', vim.lsp.buf.definition, {
   desc = 'Goto LSP definition',
   silent = true,
 })
-vim.keymap.set('n', '<leader>gD', vim.lsp.buf.declaration, {
+vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, {
   desc = 'Goto LSP declaration',
   silent = true,
 })
