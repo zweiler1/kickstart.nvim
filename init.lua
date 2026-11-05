@@ -408,19 +408,19 @@ require('lazy').setup({
   --     lspconfig.zls.setup {}
   --   end,
   -- },
-  {
-    dir = '~/env/valk/valk-syntax.nvim',
-    valk = 'valk',
-    -- Set the tab width to 4
-    init = function()
-      vim.cmd [[
-        augroup valk_indent
-          autocmd!
-          autocmd FileType valk setlocal tabstop=4 shiftwidth=4
-        augroup END
-      ]]
-    end,
-  },
+  -- {
+  --   dir = '~/env/valk/valk-syntax.nvim',
+  --   valk = 'valk',
+  --   -- Set the tab width to 4
+  --   init = function()
+  --     vim.cmd [[
+  --       augroup valk_indent
+  --         autocmd!
+  --         autocmd FileType valk setlocal tabstop=4 shiftwidth=4
+  --       augroup END
+  --     ]]
+  --   end,
+  -- },
   {
     'HealsCodes/vim-gas',
     ft = { 's' },
@@ -1213,13 +1213,15 @@ require('lazy').setup({
   },
 
   {
-    'thesimonho/kanagawa-paper.nvim',
+    'thesimonho/kanagawa-paper',
+    branch = 'neovim',
+    lazy = false,
     priority = 1000,
     config = function()
       require('kanagawa-paper').setup {
         style = 'ink',
       }
-      vim.cmd.colorscheme 'kanagawa-paper'
+      vim.cmd.colorscheme 'kanagawa-paper-ink'
 
       -- Change the color of the vertical bar
       vim.api.nvim_set_hl(0, 'MiniIndentscopeSymbol', {
