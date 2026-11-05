@@ -946,9 +946,16 @@ require('lazy').setup({
       --  - capabilities (table): Override fields in capabilities. Can be used to disable certain LSP features.
       --  - settings (table): Override the default settings passed when initializing the server.
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
+      local clangd_bin = vim.fn.exepath 'clangd'
       local servers = {
         zls = {},
-        clangd = {},
+        clangd = {
+          mason = false,
+          cmd = {
+            clangd_bin,
+            '--background-index',
+          },
+        },
         -- gopls = {},
         -- pyright = {},
         -- rust_analyzer = {},
@@ -959,7 +966,6 @@ require('lazy').setup({
         --
         -- But for many setups, the LSP (`ts_ls`) will work just fine
         -- ts_ls = {},
-        --
 
         lua_ls = {
           -- cmd = { ... },
@@ -995,7 +1001,7 @@ require('lazy').setup({
         'stylua', -- Used to format Lua code
         'tree-sitter-cli', -- Used to build treesitter parsers
       })
-      require('mason-tool-installer').setup { ensure_installed = ensure_installed }
+      -- require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
       require('mason-lspconfig').setup {
         ensure_installed = {}, -- explicitly set to an empty table (Kickstart populates installs via mason-tool-installer)
@@ -1011,6 +1017,13 @@ require('lazy').setup({
           end,
         },
       }
+
+      -- Manually activate the LSPs we dont want to manage through Mason (because Nix)
+      vim.lsp.config('clangd', {
+        cmd = { clangd_bin, '--background-index' },
+        capabilities = capabilities,
+      })
+      vim.lsp.enable 'clangd'
     end,
   },
 
