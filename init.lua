@@ -273,6 +273,9 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end ---@diagnostic disable-next-line: undefined-field
 vim.opt.rtp:prepend(lazypath)
 
+-- Suppress nvim-scrollbar v2 migration notice
+vim.g.scrollbar_v2_notice = false
+
 -- [[ Configure and install plugins ]]
 --
 --  To check the current status of your plugins, run
@@ -371,11 +374,11 @@ require('lazy').setup({
     'zweiler1/clape',
     ft = 'clape',
   },
-  {
-    -- 'zweiler1/ravel',
-    dir = '~/env/lang/ravel',
-    ft = 'ravel',
-  },
+  -- {
+  --   -- 'zweiler1/ravel',
+  --   dir = '~/env/lang/ravel',
+  --   ft = 'ravel',
+  -- },
   -- {
   --   dir = '~/env/zig/zls.nvim',
   --   ft = 'zig',
