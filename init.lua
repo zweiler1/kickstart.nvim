@@ -338,22 +338,26 @@ require('lazy').setup({
   },
   {
     'petertriho/nvim-scrollbar',
+    branch = 'refactor/v2',
     dependencies = { 'lewis6991/gitsigns.nvim' },
     config = function()
       require('scrollbar').setup {
-        handle = {
-          hide_if_all_visible = false,
-        },
         marks = {
           GitDelete = {
             text = '┆',
           },
         },
-        handlers = {
+        providers = {
           cursor = true,
           diagnostic = true,
           gitsigns = true, -- turn on Git hunk marks
-          handle = true,
+        },
+        scrollbar = {
+          visibility = 'active',
+          thumb = {
+            hide_if_all_visible = true,
+            text = ' ',
+          },
         },
       }
     end,
@@ -366,6 +370,11 @@ require('lazy').setup({
   {
     'zweiler1/clape',
     ft = 'clape',
+  },
+  {
+    -- 'zweiler1/ravel',
+    dir = '~/env/lang/ravel',
+    ft = 'ravel',
   },
   -- {
   --   dir = '~/env/zig/zls.nvim',
@@ -411,6 +420,10 @@ require('lazy').setup({
         augroup END
       ]]
     end,
+  },
+  {
+    'HealsCodes/vim-gas',
+    ft = { 's' },
   },
   {
     'rhysd/vim-llvm',
@@ -931,7 +944,7 @@ require('lazy').setup({
       --  - settings (table): Override the default settings passed when initializing the server.
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
-        -- zls = {},
+        zls = {},
         clangd = {},
         -- gopls = {},
         -- pyright = {},
@@ -1066,11 +1079,12 @@ require('lazy').setup({
     },
   },
 
-  {
+  { -- Sticky Headers
     'nvim-treesitter/nvim-treesitter-context',
     dependencies = { 'nvim-treesitter/nvim-treesitter' },
     opts = {
       enable = true,
+      multiwindow = true,
       max_lines = 3, -- Number of lines the context window can occupy
       trim_scope = 'outer', -- Which context to remove when max_lines is exceeded
       mode = 'cursor', -- "cursor" or "topline"
