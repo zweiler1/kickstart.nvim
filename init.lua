@@ -273,6 +273,12 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end ---@diagnostic disable-next-line: undefined-field
 vim.opt.rtp:prepend(lazypath)
 
+-- Two necessary environment flags to make my nvim config work on Windows
+if vim.fn.has 'win32' == 1 then
+  vim.env.CC = 'clang'
+  vim.env.CFLAGS_x86_64_pc_windows_msvc = '--target=x86_64-w64-mingw32'
+end
+
 -- Suppress nvim-scrollbar v2 migration notice
 vim.g.scrollbar_v2_notice = false
 
